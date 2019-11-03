@@ -155,7 +155,6 @@ function sendLocation() {
             sanitaize.encllnum(lo) + '</span></p>';
         if (null != room) {
             room.send(en(sent));
-            appendHistory(sent);
         }
     }
 }
