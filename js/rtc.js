@@ -13,7 +13,7 @@ function rtc_init() {
     });
 
     peer.on('open', id => {
-        appendHistory('準備完了しました。');
+        appendHistory('準備完了しました。入室してください。');
     });
 
     var enter = document.getElementById('enter');
