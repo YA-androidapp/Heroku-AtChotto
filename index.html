@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/map.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <title>AtChotto(あとちょっと)</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="https://atchotto.herokuapp.com/">AtChotto</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="https://github.com/YA-androidapp/Heroku-AtChotto" target="_blank">GitHub</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main role="main" class="container">
+    <div class="m-4">
+      <button type="button" class="btn btn-light btn-lg btn-block" data-toggle="collapse" data-target="#collapseBox"
+        aria-expanded="false" aria-controls="collapseBox">
+        How to use
+      </button>
+      <div class="jumbotron mb-4 collapse" id="collapseBox">
+        <p class="lead">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              [1]リーダー（位置共有を開始する1人）
+              <ol class="list-group list-group-flush">
+                <li class="list-group-item">(1)ルーム名(Room ID)と自分のユーザー名(Name)を必要に応じて変更し、「Enter room」をクリック</li>
+                <li class="list-group-item">
+                  (2)すぐ下のテキストボックスにURLが表示されるので、位置を共有したい人に共有する<br>
+                  (共有相手のユーザー名をあらかじめ指定したい場合は「New user's name」に入力してからURLを共有する)
+                </li>
+              </ol>
+            </li>
+            <li class="list-group-item">
+              [2]メンバー（招待される人）
+              <ol class="list-group list-group-flush">
+                <li class="list-group-item">(1)リーダーから受け取ったURLにアクセス</li>
+                <li class="list-group-item">(2)自分のユーザー名(Name)を必要に応じて変更し、「Enter room」をクリック</li>
+              </ol>
+            </li>
+          </ul>
+          <small>
+            ※ブラウザのダイアログが表示されて位置情報取得を許可するか尋ねられた場合は、許可をクリックしてください。
+          </small>
+        </p>
+      </div>
+    </div>
+    <div class="card-deck mb-1">
+      <div class="card mb-1 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Users</h4>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="row">
+              <div class="col col-sm-4">
+                Room ID
+              </div>
+              <div class="col col-sm-4">
+                <input type="text" class="form-control" id="roomName" placeholder="Room name" pattern="^[0-9A-Za-z-]+$">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-sm-4">
+                Name
+              </div>
+              <div class="col col-sm-4">
+                <input type="text" class="form-control" id="name" placeholder="My name" pattern="^[0-9A-Za-z-]+$">
+              </div>
+              <div class="col col-sm-4">
+                <button type="button" class="btn btn-block btn-primary" id="enter">Enter room</button>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col col-sm-4">
+                Share with
+              </div>
+              <div class="col col-sm-4">
+                <input type="text" class="form-control" id="shareWith" placeholder="New user's name">
+              </div>
+              <div class="col col-sm-2">
+                <input type="text" class="form-control" id="shareUrl" placeholder="URL" readonly>
+              </div>
+              <div class="col col-sm-2">
+                <button class="btn btn-outline-secondary" id="copyUrl">Copy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="row">
+              <div class="col col-sm-4">
+                Users
+              </div>
+              <div class="col col-sm-8">
+                <div id="userList">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="row">
+              <div class="col col-sm-4">
+                Message
+              </div>
+              <div class="col col-sm-4">
+                <input type="text" class="form-control" id="msg" placeholder="Message">
+              </div>
+              <div class="col col-sm-4">
+                <button id="send" class="btn btn-block btn-outline-secondary">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-1 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Map</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-title" id="geo">
+            <span id="latitude"></span> , <span id="longitude"></span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col col-sm-5">
+                <button type="button" class="btn btn-outline-info" id="revGeocode">Reverse Geocode</button>
+              </div>
+              <div class="col col-sm-5">
+                <input type="text" class="form-control" id="address" placeholder="Address" readonly>
+              </div>
+              <div class="col col-sm-2">
+                <button class="btn btn-outline-secondary" id="copyAddress">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div id="map"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-deck mb-1">
+      <div class="card mb-1 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">History</h4>
+        </div>
+        <div class="card-body">
+          <div id="history"></div>
+          <div id="output"></div>
+        </div>
+      </div>
+  </main>
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bs.js"></script>
+  <script type="text/javascript" src="js/crypt.js"></script>
+  <script type="text/javascript" src="js/crypto-js.js"></script>
+  <script type="text/javascript" src="js/geo.js"></script>
+  <script type="text/javascript" src="js/leaflet.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="js/map.js"></script>
+  <script type="text/javascript" src="js/rtc.js"></script>
+  <script type="text/javascript" src="js/skyway-latest.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
