@@ -40,7 +40,7 @@ function reverseGeocode(lat, long) {
         var address = "";
 
         var script = document.createElement('script');
-        script.src = 'https://www.finds.jp/ws/rgeocode.php?jsonp=caller&lat=' + lat + '&lon=' + long;
+        script.src = 'https://aginfo.cgk.affrc.go.jp/ws/rgeocode.php?jsonp=caller&lat=' + lat + '&lon=' + long;
         window.caller = function (response) {
             if (response != null) {
                 if (response.result != null) {
