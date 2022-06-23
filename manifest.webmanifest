@@ -4,7 +4,7 @@
 	"name": "AtChotto(あとちょっと)",
 	"scope": "/",
 	"display": "browser",
-	"start_url": "https://atchotto.netlify.com/",
+	"start_url": "https://atchotto.netlify.app/",
 	"short_name": "AtChotto",
 	"theme_color": "transparent",
 	"description": "",

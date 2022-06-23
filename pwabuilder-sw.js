@@ -10,15 +10,15 @@ self.addEventListener("install", function (event) {
   console.log("[PWA Builder] Install Event processing");
 
   event.waitUntil(
-    caches.open(CACHE).then(function (cache) {
-      console.log("[PWA Builder] Cached offline page during install");
-
-      if (offlineFallbackPage === "ToDo-replace-this-name.html") {
-        return cache.add(new Response("TODO: Update the value of the offlineFallbackPage constant in the serviceworker."));
+    (async () => {
+      try {
+        cache_obj = await caches.open(cache)
+        cache_obj.addAll(caching_files)
       }
-
-      return cache.add(offlineFallbackPage);
-    })
+      catch {
+        console.log("error occured while caching...")
+      }
+    })()
   );
 });
 

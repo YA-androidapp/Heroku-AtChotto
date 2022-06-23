@@ -8,7 +8,7 @@ const MODE_LOCATION = 'location';
 
 function rtc_init() {
     const peer = new Peer({
-        key: '9a66ba38-4821-4385-a17e-b3a29e1aacf8', // The API key of Skyway (domain: atchotto.netlify.com)
+        key: '9a66ba38-4821-4385-a17e-b3a29e1aacf8', // The API key of Skyway (domain: atchotto.netlify.app)
         debug: 3
     });
 
